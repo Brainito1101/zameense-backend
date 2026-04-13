@@ -77,7 +77,7 @@ class LandViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['get'], permission_classes=[IsAuthenticated])
     def my_properties(self, request):
-        lands = Land.objects.filter(user=request.user)
+        lands = Land.objects.filter(user=request.user)[:20]
         serializer = self.get_serializer(lands, many=True)
         return Response(serializer.data)
 
@@ -217,6 +217,6 @@ class InquiryViewSet(viewsets.ModelViewSet):
 
 
 class LeadViewSet(viewsets.ModelViewSet):
-    queryset = Lead.objects.all()
+    queryset = Land.objects.all()[:20]
     serializer_class = LeadSerializer
     permission_classes = [IsAuthenticated]
