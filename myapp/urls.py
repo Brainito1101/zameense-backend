@@ -1,6 +1,12 @@
 from rest_framework.routers import DefaultRouter
 from django.urls import path
-from .views import LandViewSet, LeadViewSet, SavedPropertyViewSet, InquiryViewSet, contact
+from .views import (
+    LandViewSet,
+    LeadViewSet,
+    SavedPropertyViewSet,
+    InquiryViewSet,
+    contact
+)
 
 router = DefaultRouter()
 router.register(r'lands', LandViewSet, basename='land')
@@ -9,7 +15,8 @@ router.register(r'saved-properties', SavedPropertyViewSet, basename='saved-prope
 router.register(r'inquiries', InquiryViewSet, basename='inquiry')
 
 urlpatterns = [
-    path('contact/', contact),
+    path('contact/', contact, name='contact'),  # ✅ added name
 ]
 
+# ✅ include all router URLs
 urlpatterns += router.urls
