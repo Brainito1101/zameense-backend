@@ -35,7 +35,8 @@ def contact(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-# ✅ Land API (NO LOGIN REQUIRED)
+
+
 class LandViewSet(viewsets.ModelViewSet):
     queryset = Land.objects.all().prefetch_related('images')
     serializer_class = LandSerializer
@@ -46,19 +47,29 @@ class LandViewSet(viewsets.ModelViewSet):
     ordering_fields = ['price', 'created_at']
     ordering = ['-created_at']
 
-    def perform_create(self, serializer):
-        # No login → user is None
-        land = serializer.save(user=None)
+    # ✅ CUSTOM CREATE METHOD
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
 
-        # Handle images
-        images = self.request.FILES.getlist('images')
+        if serializer.is_valid():
+            # ✅ Save without user (no login system)
+            land = serializer.save(user=None)
 
-        # fallback (single image)
-        if not images and self.request.FILES.get('image'):
-            images = [self.request.FILES.get('image')]
+            # ✅ Handle images
+            images = request.FILES.getlist('images')
 
-        for image in images:
-            LandImage.objects.create(land=land, image=image)
+            if not images and request.FILES.get('image'):
+                images = [request.FILES.get('image')]
+
+            for image in images:
+                LandImage.objects.create(land=land, image=image)
+
+            return Response(
+                {"message": "Land added successfully ✅"},
+                status=status.HTTP_201_CREATED
+            )
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 # ✅ Lead API (GET ALL LEADS)
