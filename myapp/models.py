@@ -13,8 +13,13 @@ class Land(models.Model):
     ]
 
     # 🔥 Link with logged-in user
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="lands")
-
+    user = models.ForeignKey(
+    User,
+    on_delete=models.CASCADE,
+    related_name="lands",
+    null=True,
+    blank=True
+)
     title = models.CharField(max_length=200)
     location = models.CharField(max_length=200)
 
