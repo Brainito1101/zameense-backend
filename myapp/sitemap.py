@@ -9,4 +9,4 @@ class LandSitemap(Sitemap):
         return Land.objects.all()
 
     def location(self, obj):
-        return f"/land/{obj.id}/"
+        return f"https://zameense-frontend.vercel.app/land/{obj.id}/"
