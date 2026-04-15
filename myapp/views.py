@@ -3,7 +3,8 @@ from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.filters import SearchFilter, OrderingFilter
-
+from rest_framework import viewsets
+from .models import LandImage
 from django.http import JsonResponse
 
 from .models import Land, Lead, LandImage, SavedProperty, Inquiry
@@ -71,6 +72,9 @@ class LandViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class LandImageViewSet(viewsets.ModelViewSet):
+    queryset = LandImage.objects.all()
+    serializer_class = LandImageSerializer
 
 # ✅ Lead API (GET ALL LEADS)
 class LeadViewSet(viewsets.ModelViewSet):
