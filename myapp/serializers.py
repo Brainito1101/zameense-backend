@@ -3,17 +3,6 @@ from .models import Land, Lead, LandImage, SavedProperty, Inquiry
 
 
 class LandImageSerializer(serializers.ModelSerializer):
-    land = serializers.PrimaryKeyRelatedField(
-        queryset=Land.objects.all()
-    )
-
-    def to_internal_value(self, data):
-        # Convert land to integer if it's a string
-        if 'land' in data and isinstance(data['land'], str):
-            data = data.copy()
-            data['land'] = int(data['land'])
-        return super().to_internal_value(data)
-
     class Meta:
         model = LandImage
         fields = '__all__'
