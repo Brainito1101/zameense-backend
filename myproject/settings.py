@@ -42,8 +42,18 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'corsheaders',
+    'cloudinary',
+    'cloudinary_storage',
     'myapp'
 ]
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'dvnabouge',
+    'API_KEY': '998555862319153',
+    'API_SECRET': 'mVHcGie8guc6hBr33N881RfdwVI',
+}
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
