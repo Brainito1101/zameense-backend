@@ -6,13 +6,11 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework import viewsets
 from .models import LandImage
 from django.http import JsonResponse
-
 from .models import Land, Lead, LandImage, SavedProperty, Inquiry
 from .serializers import (
     LandSerializer, LeadSerializer, LandImageSerializer,
     SavedPropertySerializer, InquirySerializer
 )
-
 
 # ✅ Home API
 def home(request):
@@ -35,9 +33,6 @@ def contact(request):
 
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
-
-
 class LandViewSet(viewsets.ModelViewSet):
     queryset = Land.objects.all().prefetch_related('images')
     serializer_class = LandSerializer
@@ -48,6 +43,9 @@ class LandViewSet(viewsets.ModelViewSet):
     ordering_fields = ['price', 'created_at']
     ordering = ['-created_at']
 
+    def get_serializer_context(self):
+        return {'request': self.request}
+    
     # ✅ CUSTOM CREATE METHOD
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)

@@ -3,10 +3,17 @@ from .models import Land, Lead, LandImage, SavedProperty, Inquiry
 
 
 class LandImageSerializer(serializers.ModelSerializer):
+    image = serializers.SerializerMethodField()  # ✅ ADD THIS
+
+    def get_image(self, obj):
+        request = self.context.get('request')
+        if obj.image and request:
+            return request.build_absolute_uri(obj.image.url)
+        return None
+
     class Meta:
         model = LandImage
         fields = '__all__'
-
 
 class LandSerializer(serializers.ModelSerializer):
     images = LandImageSerializer(many=True, read_only=True)
