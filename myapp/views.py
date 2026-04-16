@@ -76,6 +76,16 @@ class LandImageViewSet(viewsets.ModelViewSet):
     queryset = LandImage.objects.all()
     serializer_class = LandImageSerializer
 
+    def create(self, request, *args, **kwargs):
+        # ✅ Convert land to integer from FormData string
+        data = request.data.copy()
+        if 'land' in data:
+            data['land'] = int(data['land'])
+        serializer = self.get_serializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        return Response(serializer.data, status=201)
+
 # ✅ Lead API (GET ALL LEADS)
 class LeadViewSet(viewsets.ModelViewSet):
     queryset = Lead.objects.all().order_by('-id')
