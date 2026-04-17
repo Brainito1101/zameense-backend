@@ -48,25 +48,22 @@ class LandViewSet(viewsets.ModelViewSet):
     
     # ✅ CUSTOM CREATE METHOD
     def create(self, request, *args, **kwargs):
+        import cloudinary
+        print("CLOUDINARY CONFIG:", cloudinary.config().cloud_name)  # ✅ debug
+    
         serializer = self.get_serializer(data=request.data)
-
         if serializer.is_valid():
-            # ✅ Save without user (no login system)
             land = serializer.save(user=None)
 
-            # ✅ Handle images
             images = request.FILES.getlist('images')
-
             if not images and request.FILES.get('image'):
                 images = [request.FILES.get('image')]
 
             for image in images:
-                LandImage.objects.create(land=land, image=image)
-
-            return Response(
-                {"message": "Land added successfully ✅"},
-                status=status.HTTP_201_CREATED
-            )
+                li = LandImage.objects.create(land=land, image=image)
+                print("IMAGE URL:", li.image.url)  # ✅ debug
+            
+            return Response({"message": "Land added successfully ✅"}, status=201)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
