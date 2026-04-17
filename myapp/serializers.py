@@ -3,7 +3,7 @@ from .models import Land, Lead, LandImage, SavedProperty, Inquiry
 
 
 class LandImageSerializer(serializers.ModelSerializer):
-    image = serializers.SerializerMethodField()  # ✅ ADD THIS
+    image = serializers.SerializerMethodField()  # ✅ add this
 
     def get_image(self, obj):
         request = self.context.get('request')
