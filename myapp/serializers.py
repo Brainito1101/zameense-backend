@@ -8,7 +8,7 @@ class LandImageSerializer(serializers.ModelSerializer):
    def get_image(self, obj):
      if obj.image:
          return obj.image.url  # ✅ Cloudinary already returns full URL
-     eturn None
+     return None
 
     class Meta:
         model = LandImage
