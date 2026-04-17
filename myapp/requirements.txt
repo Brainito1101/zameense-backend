@@ -10,5 +10,5 @@ PyJWT==2.12.1
 sqlparse==0.5.5
 tzdata==2025.3
 gunicorn==21.2.0
-cloudinary
-django-cloudinary-storage
+cloudinary==1.42.1
+django-cloudinary-storage==0.3.0
