@@ -3,12 +3,12 @@ from .models import Land, Lead, LandImage, SavedProperty, Inquiry
 
 
 class LandImageSerializer(serializers.ModelSerializer):
-    image = serializers.SerializerMethodField()  # ✅ add this
+    image = serializers.SerializerMethodField()
 
-   def get_image(self, obj):
-     if obj.image:
-         return obj.image.url  # ✅ Cloudinary already returns full URL
-     return None
+    def get_image(self, obj):
+        if obj.image:
+            return obj.image.url
+        return None
 
     class Meta:
         model = LandImage
